@@ -1,4 +1,4 @@
-#3D segmentation of cell-type specific nuclei from multi-color stainings
+# 3D segmentation of cell-type specific nuclei from multi-color stainings
 
 The purpose of this script is to automatically obtain ROIs (region of interest selections) of specific cell nuclei from multiple slices of an image stack for further analyses such as intensity measurements.
 A general nuclear staining (i. e. DAPI) is combined with a cell type marker to restrict segmentation to nuclei of the cell type of interest.
