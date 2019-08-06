@@ -1,11 +1,7 @@
-# Notch Polarity Manuscript
-Code for the paper "Notch-Mediated Determination of Hair-Bundle Polarity in Mechanosensory Hair Cells of the Zebrafish's Lateral Line"
-Created by Adrian Jacobo and Anna Erzberger.
+#Measurement of radial intensity profiles from multi-color stainings of hair cell apical surfaces
 
-Files are organized in three folders:
-
-* __Bifurcation_Diagrams__: Auto07p and Python 2.7 scripts to calculate and plot the bifurcation diagrams presented in the paper.
-* __Simulations__: Python 2.7 code to simulate the equations used in the paper.
-* __Image_Analysis__: Fiji scripts to used to quantify the images for the paper.
-
-For more details on the equations refer to the methods section.
+The purpose of this script is to automatically obtain an average radial intensity profile across multiple cells of a protein of interest that is distributed on the apical surface (i.e. a planar cell polarity protein).
+An apical surface marker (i. e. actin or spectrin) is used to detect the centroid positions of the apical surfaces of all cells within the 3D stack.
+A stack of 60x60 images, each centered at a detected apical surface, is generated and saved together with an average intensity projection over all cells.
+Subsequently, the intensity of the protein of interest is measured within a ring of specified radius around the center of the average intensity projection.
+It is assumed that the polarity axis of the cells is aligned to the image axis.  
