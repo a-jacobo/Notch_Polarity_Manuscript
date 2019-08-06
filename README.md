@@ -1,4 +1,4 @@
-# Notch_Polarity_Manuscript
+# Notch Polarity Manuscript
 Code for the paper "Notch-Mediated Determination of Hair-Bundle Polarity in Mechanosensory Hair Cells of the Zebrafish's Lateral Line"
 Created by Adrian Jacobo and Anna Erzberger.
 
