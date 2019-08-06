@@ -1,0 +1,64 @@
+#==============================================================================#
+# Auto07p script to generate bifurcation diagram plots used in the paper       #
+# "Notch-Mediated Determination of Hair-Bundle Polarity in Mechanosensory Hair #
+# Cells of the Zebrafish's Lateral Line" published in Current Biology.         #
+# The equations for the system are defined in the file dn2cells.f90, refer to  #
+# the methods section of the paper for more details.                           #
+# Author: Adrian Jacobo (2018)                                                 #
+#==============================================================================#
+
+import pickle
+import numpy as np
+
+def export_bif_to_pickle(bd,run_name):
+    nbranches = len(bd)
+    branch_list=[]
+    for branch in bd:
+        data ={}
+        data['varnames'] = bd[0].keys()
+        branch_arr = branch.toarray() #There is a bug in Auto, if I don't call this first then
+                                       # branch[i]['PT'] returns None instead of the point number
+        no_points=branch_arr.shape[1]
+        stab=np.zeros(no_points,dtype=np.int64)
+        for i in range(no_points):
+            stab[i]=branch[i]['PT']
+        data['data']=branch_arr
+        data['stability']=stab
+        branch_list.append(data)
+    pickle.dump( branch_list, open( run_name+'.p', "wb" ) )
+
+dn2=load(e='dn2cells',c='dn2cells')
+
+#Integrate to get a stationary solution
+print 'Integrating to stationary solution'
+stat = run(dn2,NDIM=6,IPS=-2,NMX=200000,NPR=5000,DS=0.01)
+
+#Continue equilibrium point vs kt
+print 'Continuing kt'
+kt = run(stat('EP2'),IPS=1,NMX=200000,ILP=0,DS=-1e-6,NPR=10000,DSMIN=1e-7,STOP=['BP1'],ICP=['kt'])
+kt2 = run(kt('BP1'),IPS=1,NMX=200000,ILP=0,DS=-1e-6,NPR=10000,DSMIN=1e-6,ISW=-1)
+kt=kt+kt2
+
+#print kt.toarray()
+export_bif_to_pickle(kt,'ktrun')
+#save(kt,'ktrun')
+#plot(kt,stability='True')
+
+
+#I0 = run(stat('EP2'),IPS=1,NMX=200000,ILP=1,DS=1.,NPR=10000,DSMIN=1e-2,ICP=['I0'])
+#save(I0,'I0run')
+#plot(I0,stability='True')
+
+#wait()
+#exit()
+
+# Plot bifurcation diagram
+#p = plot(HS)
+#p.config(bifurcation_x=['ca'])
+#p.config(bifurcation_y=['cb'])
+#p.config(bifurcation_z=['kz'])
+
+#clean the directory
+#clean()
+# Save to b.mu, s.mu, and d.mu
+# save(mu,'mu')
